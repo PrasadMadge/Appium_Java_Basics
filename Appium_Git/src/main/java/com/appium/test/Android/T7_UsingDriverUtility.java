@@ -4,7 +4,6 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 
 public class T7_UsingDriverUtility extends T6_DriverUtilityToStartStopDriver {
-
 	// Note
 	// we are extending T6_DriverUtilityToStartStopDriver in our main class
 
@@ -13,26 +12,32 @@ public class T7_UsingDriverUtility extends T6_DriverUtilityToStartStopDriver {
 	// Connect android device via USB with adb enabled
 	// Install appium and node (node >8 , appium = 1.8 version)
 	// Update your node and appium main.js path
-	
+	// Open "uiautomatorviewer.bat in Android SDK folder like
+	// "Android_SDKNew\\tools\\uiautomatorviewer.bat"
+	// Select your device and locate properties for the application
+
+	// ******************** Locator Strategy *****************
+	// resource-id --> MobileBy.id
+	// content-desc--> MobileBy.AccessibilityId
+	// class --> MobileBy.className
+	// text --> MobileBy.AndroidUIAutomator("new UiSelector().text(\"text\")") ,
+	// will discuss this in more detail in future
 
 	public static void main(String[] args) {
-
-		// this function will launch the application
-		driver = getDriver();
-
-		// our test code will be written here
-
-		/*
-		 * // enter username
-		 * 
-		 * // enter password
-		 * 
-		 * // click login button
-		 */
+		driver=getDriver();
 		
-		// this function will close the application
+		// our test code starts from here
+		MobileElement username = driver.findElement(MobileBy.AccessibilityId("username"));
+		username.clear();
+		username.sendKeys("admin");
+		
+		MobileElement password = driver.findElement(MobileBy.AccessibilityId("password"));
+		password.clear();
+		password.sendKeys("admin");
+		
+		MobileElement login = driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"LOG IN\")"));
+		login.click();
+		
 		stopDriver();
-
 	}
-
 }
