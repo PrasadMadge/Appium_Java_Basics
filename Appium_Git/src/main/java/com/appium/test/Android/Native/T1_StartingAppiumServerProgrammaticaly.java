@@ -10,7 +10,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 public class T1_StartingAppiumServerProgrammaticaly {
 	
 	//Install appium and node (node >8 , appium = 1.8 version)
-	// Update your node and appium main.js path
+	// Find your node and appium main.js path
 	
 	static String nodePath="C:\\Program Files (x86)\\nodejs\\node.exe";
 	static String appiumMainJsPath = "C:\\Users\\PrasadMadge\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js";
