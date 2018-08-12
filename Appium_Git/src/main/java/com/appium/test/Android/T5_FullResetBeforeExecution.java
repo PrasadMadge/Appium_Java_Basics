@@ -9,6 +9,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -18,11 +19,11 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-public class T2_LaunchingPreInsataledAndroidApp {
+public class T5_FullResetBeforeExecution {
 
 	
 	//***************** PreConditions
-	// Install VodQA app from APK folder in your android phone
+	// APK is already installed
 	// Connect android device via USB with adb enabled
 	// Install appium and node (node >8 , appium = 1.8 version)
 	// Update your node and appium main.js path
@@ -30,10 +31,14 @@ public class T2_LaunchingPreInsataledAndroidApp {
 	static String nodePath = "C:\\Program Files (x86)\\nodejs\\node.exe";
 	static String appiumMainJsPath = "C:\\Users\\PrasadMadge\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js";
 	static int portNo = 4723;
-	static AndroidDriver driver = null;
+	static AndroidDriver<MobileElement> driver = null;
 
 	public static void main(String[] args) {
 
+		// Note
+		// To full reset app like its launching for the first time for its execution
+		// we need to just change the MobileCapabilityType.NO_RESET to false 
+		
 		AppiumDriverLocalService service = AppiumDriverLocalService
 				.buildService(new AppiumServiceBuilder().usingDriverExecutable(new File(nodePath))
 						.withAppiumJS(new File(appiumMainJsPath)).withIPAddress("0.0.0.0").usingPort(portNo));
@@ -42,20 +47,13 @@ public class T2_LaunchingPreInsataledAndroidApp {
 		service.start();
 		System.err.println("Appium server started");
 
-		// Setting up capabilties to create AndroidDriver object
-		// connect androd device and check get UDID of the device through adb
-		// devices
-		// DesiredCapabilities is one way of saying appium server which type of
-		// automation
-		// you are interested in
-
 		DesiredCapabilities caps = new DesiredCapabilities();
 		// minimum mandatory capabilites required for android
 		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "MotoG5");
 		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
 		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");
 		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
-		caps.setCapability(MobileCapabilityType.NO_RESET, true);
+		caps.setCapability(MobileCapabilityType.NO_RESET, false); // it will reset the app now
 		caps.setCapability(MobileCapabilityType.UDID, "ZY32287RPN");
 
 		// capabilities for apk
@@ -66,7 +64,18 @@ public class T2_LaunchingPreInsataledAndroidApp {
 			// App will launch if everything goes fine
 			driver = new AndroidDriver<MobileElement>(service, caps);
 
-			Thread.sleep(5000);
+			MobileElement username = driver.findElement(MobileBy.AccessibilityId("username"));
+			username.clear();
+			username.sendKeys("admin");
+			
+			MobileElement password = driver.findElement(MobileBy.AccessibilityId("password"));
+			password.clear();
+			password.sendKeys("admin");
+			
+			MobileElement login = driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"LOG IN\")"));
+			login.click();
+			
+			
 		} catch (Exception e) {
 
 			System.err.println("Error :" + e.getMessage());
