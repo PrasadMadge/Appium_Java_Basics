@@ -22,7 +22,7 @@ public class T6_DriverUtilityToStartStopDriver {
 
 	//Note 
 	// we will be using this utility for our next examples
-	// it will start appium server set caps for our applicaiton under test
+	// it will start appium server set caps for our application under test
 	// It will reduce verbose in our main test script
 	
 
