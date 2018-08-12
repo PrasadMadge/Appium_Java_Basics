@@ -1,4 +1,4 @@
-package com.appium.test.Android;
+package com.appium.test.Android.Native;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,12 +18,9 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-public class T3_LaunchingAndroidAppThroughAPK {
+public class T2_LaunchingPreInsataledAndroidApp {
 
-	// Note
-	/*Please connect your laptop or PC to a internet connection for this test or you may face the below bug in appium
-	https://github.com/mozilla/web-ext/issues/1083
-*/	
+	
 	//***************** PreConditions
 	// Install VodQA app from APK folder in your android phone
 	// Connect android device via USB with adb enabled
@@ -61,8 +58,9 @@ public class T3_LaunchingAndroidAppThroughAPK {
 		caps.setCapability(MobileCapabilityType.NO_RESET, true);
 		caps.setCapability(MobileCapabilityType.UDID, "ZY32287RPN");
 
-		// capabilities for apk file install and launch
-		caps.setCapability(MobileCapabilityType.APP, "APK/VodQA.apk");
+		// capabilities for apk
+		caps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.vodqareactnative");
+		caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.vodqareactnative.MainActivity");
 
 		try {
 			// App will launch if everything goes fine

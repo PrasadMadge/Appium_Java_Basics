@@ -1,4 +1,4 @@
-package com.appium.test.Android;
+package com.appium.test.Android.Native;
 
 import java.io.File;
 import java.io.IOException;

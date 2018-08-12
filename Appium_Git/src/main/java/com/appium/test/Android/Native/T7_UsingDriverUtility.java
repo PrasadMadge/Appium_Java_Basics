@@ -1,4 +1,4 @@
-package com.appium.test.Android;
+package com.appium.test.Android.Native;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;

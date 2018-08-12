@@ -1,4 +1,4 @@
-package com.appium.test.Android;
+package com.appium.test.Android.Native;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,23 +18,23 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-public class T2_LaunchingPreInsataledAndroidApp {
+public class T6_DriverUtilityToStartStopDriver {
 
+	//Note 
+	// we will be using this utility for our next examples
+	// it will start appium server set caps for our application under test
+	// It will reduce verbose in our main test script
 	
-	//***************** PreConditions
-	// Install VodQA app from APK folder in your android phone
-	// Connect android device via USB with adb enabled
-	// Install appium and node (node >8 , appium = 1.8 version)
-	// Update your node and appium main.js path
 
 	static String nodePath = "C:\\Program Files (x86)\\nodejs\\node.exe";
 	static String appiumMainJsPath = "C:\\Users\\PrasadMadge\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js";
 	static int portNo = 4723;
-	static AndroidDriver driver = null;
+	static AndroidDriver<MobileElement> driver = null;
+	static AppiumDriverLocalService service = null;
 
-	public static void main(String[] args) {
+	public static AndroidDriver<MobileElement> getDriver() {
 
-		AppiumDriverLocalService service = AppiumDriverLocalService
+		service = AppiumDriverLocalService
 				.buildService(new AppiumServiceBuilder().usingDriverExecutable(new File(nodePath))
 						.withAppiumJS(new File(appiumMainJsPath)).withIPAddress("0.0.0.0").usingPort(portNo));
 
@@ -42,12 +42,6 @@ public class T2_LaunchingPreInsataledAndroidApp {
 		service.start();
 		System.err.println("Appium server started");
 
-		// Setting up capabilties to create AndroidDriver object
-		// connect androd device and check get UDID of the device through adb
-		// devices
-		// DesiredCapabilities is one way of saying appium server which type of
-		// automation
-		// you are interested in
 
 		DesiredCapabilities caps = new DesiredCapabilities();
 		// minimum mandatory capabilites required for android
@@ -66,16 +60,19 @@ public class T2_LaunchingPreInsataledAndroidApp {
 			// App will launch if everything goes fine
 			driver = new AndroidDriver<MobileElement>(service, caps);
 
-			Thread.sleep(5000);
 		} catch (Exception e) {
 
 			System.err.println("Error :" + e.getMessage());
 
-		} finally {
-			if (driver != null)
-				driver.quit();
-			System.err.println("App closed");
-		}
+		} 
+		
+		return driver;
+	}
+	
+	public static void stopDriver(){
+		if (driver != null)
+			driver.quit();
+		System.err.println("App closed");
 		service.stop();
 		System.err.println("Appium server stopped");
 	}
