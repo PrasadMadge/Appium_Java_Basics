@@ -9,6 +9,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 
 public class T1_StartingAppiumServerProgrammaticaly {
 	
+	
 	//Install appium and node (node >8 , appium = 1.8 version)
 	// Find your node and appium main.js path
 	
